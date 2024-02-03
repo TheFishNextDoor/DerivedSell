@@ -14,12 +14,7 @@ public class MaterialWorth {
     private static HashSet<Material> checking = new HashSet<>();
 
     static {
-        worths.put(Material.OAK_LOG, 2.0);
-        worths.put(Material.COBBLESTONE, 1.0);
-        worths.put(Material.RAW_COPPER, 20.0);
-        worths.put(Material.RAW_IRON, 40.0);
-        worths.put(Material.RAW_GOLD, 250.0);
-        worths.put(Material.DIAMOND, 1000.0);
+        worths.put(Material.OAK_LOG, 1.0);
     }
 
     public static Double getWorth(Material material, int amount) {
@@ -49,10 +44,6 @@ public class MaterialWorth {
         return worth;
     }
 
-    public static Double getWorth(IngredientList ingredientList) {
-        return getWorthPerResult(ingredientList);
-    }
-
     public static Double getWorthPerResult(IngredientList ingredientList) {
         Double totalWorth = getTotalWorth(ingredientList);
         return totalWorth != null ? totalWorth / ingredientList.resultingAmount() : null;
@@ -70,10 +61,10 @@ public class MaterialWorth {
             if (materialWorth == null) {
                 return null;
             }
-            totalWorth += materialWorth * ingredientList.resultingAmount();
+            totalWorth += materialWorth;
         }
 
-        return totalWorth;
+        return totalWorth * ingredientList.worthMultiplier();
     }
 
     private static Double findWorth(Material material) {

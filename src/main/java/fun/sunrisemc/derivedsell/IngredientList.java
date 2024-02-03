@@ -1,5 +1,7 @@
 package fun.sunrisemc.derivedsell;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -31,7 +33,7 @@ public class IngredientList extends HashMap<Material, Integer> {
         return worthMultiplier;
     }
 
-    public void addIngredient(Material material, int amount) {
+    public void add(Material material, int amount) {
         if (containsKey(material)) {
             put(material, get(material) + amount);
         }
@@ -44,41 +46,16 @@ public class IngredientList extends HashMap<Material, Integer> {
         IngredientList cheapestIngredients = null;
         Double cheapestWorth = null;
         for (Recipe recipe : Bukkit.getRecipesFor(item)) {
-            IngredientList ingredientList = new IngredientList(recipe.getResult().getAmount(), getWorthMultiplier(recipe));
-            int amount = recipe.getResult().getAmount();
-    
-            if (recipe instanceof ShapedRecipe) {
-                ShapedRecipe shapedRecipe = (ShapedRecipe) recipe;
-                for (RecipeChoice recipeChoice : shapedRecipe.getChoiceMap().values()) {
-                    if (!(recipeChoice instanceof MaterialChoice)) {
-                        ingredientList.clear();
-                        break;
-                    }
-    
-                    Material material = IngredientList.getCheapestMaterial((MaterialChoice) recipeChoice);
-                    ingredientList.addIngredient(material, amount);
-                }
-            }
-            else if (recipe instanceof ShapelessRecipe) {
-                ShapelessRecipe shapelessRecipe = (ShapelessRecipe) recipe;
-                for (RecipeChoice recipeChoice : shapelessRecipe.getChoiceList()) {
-                    if (!(recipeChoice instanceof MaterialChoice)) {
-                        ingredientList.clear();
-                        break;
-                    }
-    
-                    Material material = IngredientList.getCheapestMaterial((MaterialChoice) recipeChoice);
-                    ingredientList.addIngredient(material, amount);
-                }
-            }
-            else if (recipe instanceof CookingRecipe<?>) {
-                CookingRecipe<?> cookingRecipe = (CookingRecipe<?>) recipe;
-                if (!(cookingRecipe.getInputChoice() instanceof MaterialChoice)) {
-                    continue;
+            int resultAmount = recipe.getResult().getAmount();
+            IngredientList ingredientList = new IngredientList(resultAmount, getWorthMultiplier(recipe));
+            for (RecipeChoice recipeChoice : getIngredients(recipe)) {
+                if (!(recipeChoice instanceof MaterialChoice)) {
+                    ingredientList.clear();
+                    break;
                 }
     
-                Material material = IngredientList.getCheapestMaterial((MaterialChoice) cookingRecipe.getInputChoice());
-                ingredientList.addIngredient(material, amount);
+                Material material = IngredientList.getCheapestMaterial((MaterialChoice) recipeChoice);
+                ingredientList.add(material, 1);
             }
     
             if (ingredientList.isEmpty()) {
@@ -96,6 +73,28 @@ public class IngredientList extends HashMap<Material, Integer> {
             }
         }
         return cheapestIngredients;
+    }
+
+    private static double getWorthMultiplier(Recipe recipe) {
+        if (recipe instanceof CookingRecipe<?>) {
+            return 2.0;
+        }
+        return 1.0;
+    }
+
+    private static Collection<RecipeChoice> getIngredients(Recipe recipe) {
+        if (recipe instanceof ShapedRecipe) {
+            return ((ShapedRecipe) recipe).getChoiceMap().values();
+        }
+        else if (recipe instanceof ShapelessRecipe) {
+            return ((ShapelessRecipe) recipe).getChoiceList();
+        }
+        else if (recipe instanceof CookingRecipe<?>) {
+            ArrayList<RecipeChoice> choiceList = new ArrayList<>();
+            choiceList.add(((CookingRecipe<?>) recipe).getInputChoice());
+            return choiceList;
+        }
+        return new ArrayList<RecipeChoice>();
     }
 
     private static Material getCheapestMaterial(MaterialChoice materialChoice) {
@@ -117,12 +116,5 @@ public class IngredientList extends HashMap<Material, Integer> {
             }
         }
         return cheapestMaterial;
-    }
-
-    private static double getWorthMultiplier(Recipe recipe) {
-        if (recipe instanceof CookingRecipe<?>) {
-            return 2.0;
-        }
-        return 1.0;
     }
 }
