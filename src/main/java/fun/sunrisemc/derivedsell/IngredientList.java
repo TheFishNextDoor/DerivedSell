@@ -42,7 +42,7 @@ public class IngredientList extends HashMap<Material, Integer> {
         }
     }
 
-    public static IngredientList get(ItemStack item) {
+    public static IngredientList getCheapest(ItemStack item) {
         IngredientList cheapestIngredients = null;
         Double cheapestWorth = null;
         for (Recipe recipe : Bukkit.getRecipesFor(item)) {
