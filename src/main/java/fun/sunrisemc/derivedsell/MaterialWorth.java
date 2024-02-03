@@ -11,23 +11,37 @@ public class MaterialWorth {
 
     private static HashMap<Material, Double> worthCache = new HashMap<>();
     private static HashSet<Material> worthlessCache = new HashSet<>();
+
     private static HashSet<Material> checking = new HashSet<>();
 
+    // Massively speeds up checking and fixes some loop conditions but is only valid for the current recursive search
+    private static HashMap<Material, Double> tempWorthCache = new HashMap<>();
+    private static HashSet<Material> tempWorthlessCache = new HashSet<>();
+
     static {
-        worthCache.put(Material.OAK_LOG, 1.0);
+        worthCache.put(Material.OAK_LOG, 4.0);
+        worthCache.put(Material.COBBLESTONE, 1.0);
+        worthCache.put(Material.RAW_COPPER, 5.0);
+        worthCache.put(Material.RAW_IRON, 10.0);
+        worthCache.put(Material.RAW_GOLD, 20.0);
+        worthCache.put(Material.DIAMOND, 45.0);
+        worthCache.put(Material.EMERALD, 40.0);
+        worthCache.put(Material.NETHERITE_SCRAP, 100.0);
     }
 
     public static Double getWorth(Material material, int amount) {
         Double worth = getWorth(material);
-        if (worth == null) {
-            return null;
-        }
-        return worth * amount;
+        return worth != null ? worth * amount : null;
     }
 
     public static Double getWorth(Material material) {
         if (checking.contains(material)) {
             return null;
+        }
+
+        if (checking.isEmpty()) {
+            tempWorthCache.clear();
+            tempWorthlessCache.clear();
         }
 
         checking.add(material);
@@ -40,8 +54,15 @@ public class MaterialWorth {
                 worthCache.put(material, worth);
             }
             else if (worth == null && !worthlessCache.contains(material)) {
-                Plugin.getInstance().LOGGER.info("Caching " + material + " as worthless.");
                 worthlessCache.add(material);
+            }
+        }
+        else {
+            if (worth != null && !tempWorthCache.containsKey(material)) {
+                tempWorthCache.put(material, worth);
+            }
+            else if (worth == null && !tempWorthlessCache.contains(material)) {
+                tempWorthlessCache.add(material);
             }
         }
 
@@ -77,6 +98,14 @@ public class MaterialWorth {
         }
 
         if (worthlessCache.contains(material)) {
+            return null;
+        }
+
+        if (tempWorthCache.containsKey(material)) {
+            return tempWorthCache.get(material);
+        }
+
+        if (tempWorthlessCache.contains(material)) {
             return null;
         }
 

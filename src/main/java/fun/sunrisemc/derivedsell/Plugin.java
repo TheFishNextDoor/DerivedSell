@@ -18,15 +18,6 @@ public class Plugin extends JavaPlugin {
             MaterialWorth.getWorth(material, 1);
         }
 
-        Material material = Material.IRON_SWORD;
-        Double worth = MaterialWorth.getWorth(material, 1);
-        if (worth != null) {
-            LOGGER.info(material + " is worth " + worth);
-        }
-        else {
-            LOGGER.info(material + " is worthless");
-        }
-
         LOGGER.info("Plugin enabled.");
     }
 

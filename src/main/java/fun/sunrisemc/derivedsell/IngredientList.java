@@ -104,7 +104,7 @@ public class IngredientList extends HashMap<Material, Integer> {
             if (cheapestMaterial == null) {
                 cheapestMaterial = material;
             }
-    
+
             Double worth = MaterialWorth.getWorth(material, materialChoice.getItemStack().getAmount());
             if (worth == null) {
                 continue;
