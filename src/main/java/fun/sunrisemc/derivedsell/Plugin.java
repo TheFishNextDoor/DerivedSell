@@ -15,10 +15,7 @@ public class Plugin extends JavaPlugin {
         instance = this;
 
         for (Material material : Material.values()) {
-            Double worth = MaterialWorth.getWorth(material, 1);
-            if (worth != null) {
-                LOGGER.info(material + " is worth " + worth);
-            }
+            MaterialWorth.getWorth(material, 1);
         }
 
         Material material = Material.IRON_SWORD;

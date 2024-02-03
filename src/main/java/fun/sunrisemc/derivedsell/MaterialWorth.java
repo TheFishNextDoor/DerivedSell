@@ -9,12 +9,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class MaterialWorth {
 
-    private static HashMap<Material, Double> worths = new HashMap<>();
-    private static HashSet<Material> worthless = new HashSet<>();
+    private static HashMap<Material, Double> worthCache = new HashMap<>();
+    private static HashSet<Material> worthlessCache = new HashSet<>();
     private static HashSet<Material> checking = new HashSet<>();
 
     static {
-        worths.put(Material.OAK_LOG, 1.0);
+        worthCache.put(Material.OAK_LOG, 1.0);
     }
 
     public static Double getWorth(Material material, int amount) {
@@ -34,11 +34,15 @@ public class MaterialWorth {
         Double worth = findWorth(material);
         checking.remove(material);
 
-        if (worth != null && !worths.containsKey(material)) {
-            worths.put(material, worth);
-        }
-        else if (worth == null && !worthless.contains(material)) {
-            worthless.add(material);
+        if (checking.isEmpty()) {
+            if (worth != null && !worthCache.containsKey(material)) {
+                Plugin.getInstance().LOGGER.info("Caching worth of " + material + " as " + worth + ".");
+                worthCache.put(material, worth);
+            }
+            else if (worth == null && !worthlessCache.contains(material)) {
+                Plugin.getInstance().LOGGER.info("Caching " + material + " as worthless.");
+                worthlessCache.add(material);
+            }
         }
 
         return worth;
@@ -68,11 +72,11 @@ public class MaterialWorth {
     }
 
     private static Double findWorth(Material material) {
-        if (worths.containsKey(material)) {
-            return worths.get(material);
+        if (worthCache.containsKey(material)) {
+            return worthCache.get(material);
         }
 
-        if (worthless.contains(material)) {
+        if (worthlessCache.contains(material)) {
             return null;
         }
 
