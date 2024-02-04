@@ -50,7 +50,7 @@ public class MaterialWorth {
 
         if (checking.isEmpty()) {
             if (worth != null && !worthCache.containsKey(material)) {
-                Plugin.getInstance().LOGGER.info("Caching worth of " + material + " as " + worth + ".");
+                Plugin.getInstance().LOGGER.info("Caching worth of " + material + " as " + worth);
                 worthCache.put(material, worth);
             }
             else if (worth == null && !worthlessCache.contains(material)) {
@@ -90,6 +90,14 @@ public class MaterialWorth {
         }
 
         return totalWorth * ingredientList.worthMultiplier();
+    }
+
+    public static void preCacheWorths() {
+        Plugin.getInstance().LOGGER.info("Precaching worths...");
+    
+        for (Material material : Material.values()) {
+            getWorth(material, 1);
+        }
     }
 
     private static Double findWorth(Material material) {
