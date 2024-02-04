@@ -18,17 +18,6 @@ public class MaterialWorth {
     private static HashMap<Material, Double> tempWorthCache = new HashMap<>();
     private static HashSet<Material> tempWorthlessCache = new HashSet<>();
 
-    static {
-        worthCache.put(Material.OAK_LOG, 4.0);
-        worthCache.put(Material.COBBLESTONE, 1.0);
-        worthCache.put(Material.RAW_COPPER, 5.0);
-        worthCache.put(Material.RAW_IRON, 10.0);
-        worthCache.put(Material.RAW_GOLD, 20.0);
-        worthCache.put(Material.DIAMOND, 45.0);
-        worthCache.put(Material.EMERALD, 40.0);
-        worthCache.put(Material.NETHERITE_SCRAP, 100.0);
-    }
-
     public static Double getWorth(Material material, int amount) {
         Double worth = getWorth(material);
         return worth != null ? worth * amount : null;
@@ -50,7 +39,7 @@ public class MaterialWorth {
 
         if (checking.isEmpty()) {
             if (worth != null && !worthCache.containsKey(material)) {
-                Plugin.getInstance().LOGGER.info("Caching worth of " + material + " as " + worth);
+                Plugin.getPluginLogger().info("Caching worth of " + material + " as " + worth);
                 worthCache.put(material, worth);
             }
             else if (worth == null && !worthlessCache.contains(material)) {
@@ -92,12 +81,28 @@ public class MaterialWorth {
         return totalWorth * ingredientList.worthMultiplier();
     }
 
+    public static void setWorth(Material material, Double worth) {
+        if (worth != null) {
+            worthCache.put(material, worth);
+            worthlessCache.remove(material);
+        }
+        else {
+            worthCache.remove(material);
+            worthlessCache.add(material);
+        }
+    }
+
     public static void preCacheWorths() {
-        Plugin.getInstance().LOGGER.info("Precaching worths...");
+        Plugin.getPluginLogger().info("Precaching worths...");
     
         for (Material material : Material.values()) {
             getWorth(material, 1);
         }
+    }
+
+    public static void clearWorths() {
+        worthCache.clear();
+        worthlessCache.clear();
     }
 
     private static Double findWorth(Material material) {
