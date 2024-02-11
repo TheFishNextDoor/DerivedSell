@@ -21,7 +21,7 @@ public class Commands {
     public static ArrayList<String> materialNames() {
         ArrayList<String> names = new ArrayList<>(Material.values().length);
         for (Material material : Material.values()) {
-            names.add(material.name());
+            names.add(material.toString().toLowerCase());
         }
         return names;
     }
