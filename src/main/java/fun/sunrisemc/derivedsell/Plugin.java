@@ -1,7 +1,5 @@
 package fun.sunrisemc.derivedsell;
 
-import java.util.logging.Logger;
-
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -13,17 +11,15 @@ import net.milkbowl.vault.economy.Economy;
 public class Plugin extends JavaPlugin {
 
     private static Plugin instance = null;
-    private static Logger logger = null;
     private static Economy economy = null;
     private static Commands commands = null;
 
     public void onEnable() {
         instance = this;
-        logger = getLogger();
         commands = new Commands(this);
 
         if (!hookVault()) {
-            logger.severe("Vault not found. Disabling plugin.");
+            getLogger().severe("Vault not found. Disabling plugin.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -41,19 +37,15 @@ public class Plugin extends JavaPlugin {
 
         getCommand("worth").setExecutor(new Worth());
 
-        logger.info("Plugin enabled.");
+        getLogger().info("Plugin enabled.");
     }
 
     public void onDisable() {
-        logger.info("Plugin disabled.");
+        getLogger().info("Plugin disabled.");
     }
 
     public static Plugin getInstance() {
         return instance;
-    }
-
-    public static Logger getPluginLogger() {
-        return logger;
     }
 
     public static Economy getEconomy() {
@@ -65,7 +57,7 @@ public class Plugin extends JavaPlugin {
     }
 
     private boolean hookVault() {
-        logger.info("Hooking Vault...");
+        getLogger().info("Hooking Vault...");
 
         Server server = getServer();
         RegisteredServiceProvider<Economy> economyProvider = server.getServicesManager().getRegistration(Economy.class);
