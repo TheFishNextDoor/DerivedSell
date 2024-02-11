@@ -14,10 +14,12 @@ public class Plugin extends JavaPlugin {
     private static Plugin instance = null;
     private static Logger logger = null;
     private static Economy economy = null;
+    private static Commands commands = null;
 
     public void onEnable() {
         instance = this;
         logger = getLogger();
+        commands = new Commands(this);
 
         if (!hookVault()) {
             logger.severe("Vault not found. Disabling plugin.");
@@ -46,6 +48,10 @@ public class Plugin extends JavaPlugin {
 
     public static Economy getEconomy() {
         return economy;
+    }
+
+    public static Commands getCommands() {
+        return commands;
     }
 
     private boolean hookVault() {

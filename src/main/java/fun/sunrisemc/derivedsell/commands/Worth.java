@@ -11,7 +11,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import fun.sunrisemc.derivedsell.CommandTools;
+import fun.sunrisemc.derivedsell.Commands;
 import fun.sunrisemc.derivedsell.MaterialWorth;
 
 public class Worth implements CommandExecutor, TabCompleter {
@@ -19,7 +19,7 @@ public class Worth implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {
-            return CommandTools.materialNames();
+            return Commands.materialNames();
         }
         return null;
 
@@ -51,15 +51,15 @@ public class Worth implements CommandExecutor, TabCompleter {
 
         Double worth = MaterialWorth.getWorth(material);
         if (worth == null) {
-            sender.sendMessage(ChatColor.YELLOW + CommandTools.titleCase(material.name()) + " cannot be sold to the server.");
+            sender.sendMessage(ChatColor.YELLOW + Commands.titleCase(material.name()) + " cannot be sold to the server.");
             return true;
         }
 
         if (quantity > 1) {
-            sender.sendMessage(ChatColor.GREEN + "Stack of " + quantity + " " + CommandTools.titleCase(material.name()) + " is worth " + (worth * quantity) + " (" + worth + " per item).");
+            sender.sendMessage(ChatColor.GREEN + "Stack of " + quantity + " " + Commands.titleCase(material.name()) + " is worth " + (worth * quantity) + " (" + worth + " per item).");
         }
         else {
-            sender.sendMessage(ChatColor.GREEN + CommandTools.titleCase(material.name()) + " is worth " + worth + " per item.");
+            sender.sendMessage(ChatColor.GREEN + Commands.titleCase(material.name()) + " is worth " + worth + " per item.");
         }
         return true;
     }

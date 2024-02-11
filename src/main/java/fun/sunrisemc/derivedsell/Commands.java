@@ -3,11 +3,23 @@ package fun.sunrisemc.derivedsell;
 import java.util.ArrayList;
 
 import org.bukkit.Material;
+import org.bukkit.command.PluginCommand;
 
-public class CommandTools {
+import fun.sunrisemc.derivedsell.commands.Worth;
+
+public class Commands {
+
+    public final PluginCommand WORTH;
+
+    public Commands(Plugin plugin) {
+        this.WORTH = plugin.getCommand("worth");
+        Worth worthCommandHandler = new Worth();
+        this.WORTH.setExecutor(worthCommandHandler);
+        this.WORTH.setTabCompleter(worthCommandHandler);
+    }
 
     public static ArrayList<String> materialNames() {
-        ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> names = new ArrayList<>(Material.values().length);
         for (Material material : Material.values()) {
             names.add(material.name());
         }
