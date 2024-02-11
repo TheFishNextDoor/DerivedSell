@@ -52,7 +52,7 @@ public class Worths implements CommandExecutor, TabCompleter {
         for (Entry<Material, Double> entry : worths.entrySet()) {
             i++;
             if (i > start && i <= end) {
-                sender.sendMessage(i.toString() + ". " + Commands.titleCase(entry.getKey().toString()) + ": " + String.format("%.2f", entry.getValue()));
+                sender.sendMessage(i.toString() + ". " + Commands.titleCase(entry.getKey().toString()) + ": " + Commands.displayMoney(entry.getValue()));
             }
         }
         return true;

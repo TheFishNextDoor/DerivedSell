@@ -69,10 +69,10 @@ public class Worth implements CommandExecutor, TabCompleter {
         }
 
         if (quantity > 1) {
-            sender.sendMessage(ChatColor.GREEN + "Stack of " + quantity + " " + Commands.titleCase(material.name()) + " is worth " + (worth * quantity) + " (" + worth + " per item).");
+            sender.sendMessage(ChatColor.GREEN + "Stack of " + quantity + " " + Commands.titleCase(material.name()) + " is worth " + Commands.displayMoney(worth * quantity) + " (" + Commands.displayMoney(worth) + " per item).");
         }
         else {
-            sender.sendMessage(ChatColor.GREEN + Commands.titleCase(material.name()) + " is worth " + worth + " per item.");
+            sender.sendMessage(ChatColor.GREEN + Commands.titleCase(material.name()) + " is worth " + Commands.displayMoney(worth) + " per item.");
         }
         return true;
     }

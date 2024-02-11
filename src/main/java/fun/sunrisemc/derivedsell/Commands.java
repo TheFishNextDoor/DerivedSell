@@ -13,6 +13,10 @@ public class Commands {
     public final PluginCommand WORTH;
     public final PluginCommand WORTHS;
 
+    private static final String MONEY_PREFIX = "$";
+    private static final String MONEY_SUFFIX = "";
+    private static final int roundTo = 2;
+
     public Commands(Plugin plugin) {
         this.WORTH = plugin.getCommand("worth");
         Worth worthCommandHandler = new Worth();
@@ -49,5 +53,9 @@ public class Commands {
         } catch (NumberFormatException e) {
             return 0;
         }
+    }
+
+    public static String displayMoney(double value) {
+        return MONEY_PREFIX + String.format("%." + roundTo + "f", value) + MONEY_SUFFIX;
     }
 }
