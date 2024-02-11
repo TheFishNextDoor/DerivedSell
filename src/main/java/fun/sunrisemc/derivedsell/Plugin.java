@@ -6,6 +6,7 @@ import org.bukkit.Server;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import fun.sunrisemc.derivedsell.commands.Worth;
 import net.milkbowl.vault.economy.Economy;
 
 public class Plugin extends JavaPlugin {
@@ -19,10 +20,14 @@ public class Plugin extends JavaPlugin {
         logger = getLogger();
 
         if (!hookVault()) {
+            logger.severe("Vault not found. Disabling plugin.");
+            getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
         MaterialWorth.preCacheWorths();
+
+        getCommand("worth").setExecutor(new Worth());
 
         logger.info("Plugin enabled.");
     }
@@ -50,12 +55,7 @@ public class Plugin extends JavaPlugin {
         RegisteredServiceProvider<Economy> economyProvider = server.getServicesManager().getRegistration(Economy.class);
 
         economy = economyProvider != null ? economyProvider.getProvider() : null;
-        if (economy == null) {
-            logger.severe("Vault not found. Disabling plugin.");
-            server.getPluginManager().disablePlugin(this);
-            return false;
-        }
 
-        return true;
+        return economy != null;
     }
 }

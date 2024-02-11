@@ -3,3 +3,11 @@ main: fun.sunrisemc.derivedsell.Plugin
 version: 0.0.1
 api-version: 1.20
 depend: [Vault]
+commands:
+  worth:
+    description: Check the worth of an item. Uses the item in your hand if one is not provided.
+    usage: /worth [material] [amount]
+permissions:
+  derivedsell.user.worth:
+    description: Allows the player to check the worth of an item.
+    default: true
