@@ -2,6 +2,7 @@ package fun.sunrisemc.derivedsell;
 
 import java.util.logging.Logger;
 
+import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,6 +27,15 @@ public class Plugin extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
+        MaterialWorth.setWorth(Material.OAK_LOG, 1.0);
+        MaterialWorth.setWorth(Material.COBBLESTONE, 2.0);
+        MaterialWorth.setWorth(Material.COAL, 10.0);
+        MaterialWorth.setWorth(Material.RAW_COPPER, 20.0);
+        MaterialWorth.setWorth(Material.RAW_IRON, 40.0);
+        MaterialWorth.setWorth(Material.RAW_GOLD, 250.0);
+        MaterialWorth.setWorth(Material.DIAMOND, 1000.0);
+        MaterialWorth.setWorth(Material.NETHERITE_SCRAP, 1500.0);
 
         MaterialWorth.preCacheWorths();
 
