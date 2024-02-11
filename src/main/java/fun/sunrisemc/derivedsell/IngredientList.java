@@ -3,6 +3,7 @@ package fun.sunrisemc.derivedsell;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -83,18 +84,30 @@ public class IngredientList extends HashMap<Material, Integer> {
     }
 
     private static Collection<RecipeChoice> getIngredients(Recipe recipe) {
+        Collection<RecipeChoice> ingredients;
         if (recipe instanceof ShapedRecipe) {
-            return ((ShapedRecipe) recipe).getChoiceMap().values();
+            ingredients = ((ShapedRecipe) recipe).getChoiceMap().values();
         }
         else if (recipe instanceof ShapelessRecipe) {
-            return ((ShapelessRecipe) recipe).getChoiceList();
+            ingredients = ((ShapelessRecipe) recipe).getChoiceList();
         }
         else if (recipe instanceof CookingRecipe<?>) {
             ArrayList<RecipeChoice> choiceList = new ArrayList<>();
             choiceList.add(((CookingRecipe<?>) recipe).getInputChoice());
-            return choiceList;
+            ingredients = choiceList;
         }
-        return new ArrayList<RecipeChoice>();
+        else {
+            ingredients = new ArrayList<RecipeChoice>();
+        }
+        
+        Iterator<RecipeChoice> ingredientsIter = ingredients.iterator();
+        while (ingredientsIter.hasNext()) {
+            if (ingredientsIter.next() == null) {
+                ingredientsIter.remove();
+            }
+        }
+
+        return ingredients;
     }
 
     private static Material getCheapestMaterial(MaterialChoice materialChoice) {
