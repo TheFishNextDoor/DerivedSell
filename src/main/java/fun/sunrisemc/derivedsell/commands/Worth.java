@@ -1,5 +1,6 @@
 package fun.sunrisemc.derivedsell.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -21,14 +22,22 @@ public class Worth implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             return Commands.materialNames();
         }
+        else if(args.length == 2) {
+            ArrayList<String> numbers = new ArrayList<>();
+            numbers.add("1");
+            numbers.add("16");
+            numbers.add("64");
+            return numbers;
+        }
         return null;
 
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Material material;
-        int quantity;
+        Material material = null;
+        int quantity = 1;
+
         if (args.length == 0) {
             if (!(sender instanceof Player)) {
                 return false;
@@ -39,9 +48,13 @@ public class Worth implements CommandExecutor, TabCompleter {
             material = handItem.getType();
             quantity = handItem.getAmount();
         }
-        else {
-            material = Material.matchMaterial(args[0]);
-            quantity = 1;
+
+        if (args.length >= 1) {
+            material = Material.getMaterial(args[0].toUpperCase());
+        }
+
+        if (args.length >= 2) {
+            quantity = Math.max(Commands.number(args[1]), 1);
         }
 
         if (material == null) {

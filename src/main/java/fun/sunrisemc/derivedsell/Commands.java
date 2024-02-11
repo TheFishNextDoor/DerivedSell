@@ -35,4 +35,12 @@ public class Commands {
         }
         return titleCase.trim();
     }
+
+    public static int number(String numeral) {
+        try {
+            return Integer.parseInt(numeral);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
 }
