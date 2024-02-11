@@ -92,17 +92,16 @@ public class MaterialWorth {
         }
     }
 
+    public static HashMap<Material, Double> copyWorthCache() {
+        return new HashMap<>(worthCache);
+    }
+
     public static void preCacheWorths() {
         Plugin.getPluginLogger().info("Precaching worths...");
     
         for (Material material : Material.values()) {
             getWorth(material, 1);
         }
-    }
-
-    public static void clearWorths() {
-        worthCache.clear();
-        worthlessCache.clear();
     }
 
     private static Double findWorth(Material material) {

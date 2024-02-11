@@ -7,7 +7,15 @@ commands:
   worth:
     description: Check the worth of an item. Uses the item in your hand if one is not provided.
     usage: /worth [material] [amount]
+    permission: derivedsell.user.worth
+  worths:
+    description: List all worths.
+    usage: /worths
+    permission: derivedsell.user.worths
 permissions:
   derivedsell.user.worth:
     description: Allows the player to check the worth of an item.
+    default: true
+  derivedsell.user.worths:
+    description: Allows the player to list all worths.
     default: true
