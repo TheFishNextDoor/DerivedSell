@@ -48,7 +48,8 @@ public class IngredientList extends HashMap<Material, Integer> {
         Double cheapestWorth = null;
         for (Recipe recipe : Bukkit.getRecipesFor(item)) {
             int resultAmount = recipe.getResult().getAmount();
-            IngredientList ingredientList = new IngredientList(resultAmount, getWorthMultiplier(recipe));
+            double worthMultiplier = getWorthMultiplier(recipe);
+            IngredientList ingredientList = new IngredientList(resultAmount, worthMultiplier);
             for (RecipeChoice recipeChoice : getIngredients(recipe)) {
                 if (!(recipeChoice instanceof MaterialChoice)) {
                     ingredientList.clear();
