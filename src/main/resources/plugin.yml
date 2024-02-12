@@ -12,10 +12,17 @@ commands:
     description: List all worths.
     usage: /worths
     permission: derivedsell.user.worths
+  sell:
+    description: Sell an item. Uses the item in your hand if one is not provided.
+    usage: /sell [material] [amount]
+    permission: derivedsell.user.sell
 permissions:
   derivedsell.user.worth:
     description: Allows the player to check the worth of an item.
     default: true
   derivedsell.user.worths:
     description: Allows the player to list all worths.
+    default: true
+  derivedsell.user.sell:
+    description: Allows the player to sell an item.
     default: true

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.Material;
 import org.bukkit.command.PluginCommand;
 
+import fun.sunrisemc.derivedsell.commands.Sell;
 import fun.sunrisemc.derivedsell.commands.Worth;
 import fun.sunrisemc.derivedsell.commands.Worths;
 
@@ -12,6 +13,7 @@ public class Commands {
 
     public final PluginCommand WORTH;
     public final PluginCommand WORTHS;
+    public final PluginCommand SELL;
 
     private static final String MONEY_PREFIX = "$";
     private static final String MONEY_SUFFIX = "";
@@ -27,6 +29,11 @@ public class Commands {
         Worths worthsCommandHandler = new Worths();
         this.WORTHS.setExecutor(worthsCommandHandler);
         this.WORTHS.setTabCompleter(worthsCommandHandler);
+
+        this.SELL = plugin.getCommand("sell");
+        Sell sellCommandHandler = new Sell();
+        this.SELL.setExecutor(sellCommandHandler);
+        this.SELL.setTabCompleter(sellCommandHandler);
     }
 
     public static ArrayList<String> materialNames() {
