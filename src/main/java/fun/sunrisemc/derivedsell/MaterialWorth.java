@@ -39,7 +39,7 @@ public class MaterialWorth {
 
         if (checking.isEmpty()) {
             if (worth != null && !worthCache.containsKey(material)) {
-                Plugin.getInstance().getLogger().info("Caching worth of " + material + " as " + worth);
+                DerivedSell.getInstance().getLogger().info("Caching worth of " + material + " as " + worth);
                 worthCache.put(material, worth);
             }
             else if (worth == null && !worthlessCache.contains(material)) {
@@ -97,7 +97,7 @@ public class MaterialWorth {
     }
 
     public static void preCacheWorths() {
-        Plugin.getInstance().getLogger().info("Pre-caching worths...");
+        DerivedSell.getInstance().getLogger().info("Pre-caching worths...");
     
         for (Material material : Material.values()) {
             getWorth(material, 1);

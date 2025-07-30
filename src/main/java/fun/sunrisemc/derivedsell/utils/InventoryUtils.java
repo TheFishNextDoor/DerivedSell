@@ -1,10 +1,10 @@
-package fun.sunrisemc.derivedsell;
+package fun.sunrisemc.derivedsell.utils;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class InventoryTools {
+public class InventoryUtils {
 
     public static boolean take(Player player, Material material, int amount) {
         return take(player, new ItemStack(material), amount);

@@ -8,9 +8,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import fun.sunrisemc.derivedsell.commands.Worth;
 import net.milkbowl.vault.economy.Economy;
 
-public class Plugin extends JavaPlugin {
+public class DerivedSell extends JavaPlugin {
 
-    private static Plugin instance = null;
+    private static DerivedSell instance = null;
     private static Economy economy = null;
     private static Commands commands = null;
 
@@ -44,7 +44,7 @@ public class Plugin extends JavaPlugin {
         getLogger().info("Plugin disabled.");
     }
 
-    public static Plugin getInstance() {
+    public static DerivedSell getInstance() {
         return instance;
     }
 

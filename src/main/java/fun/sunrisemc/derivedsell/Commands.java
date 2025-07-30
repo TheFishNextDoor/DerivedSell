@@ -19,7 +19,7 @@ public class Commands {
     private static final String MONEY_SUFFIX = "";
     private static final int roundTo = 2;
 
-    public Commands(Plugin plugin) {
+    public Commands(DerivedSell plugin) {
         this.WORTH = plugin.getCommand("worth");
         Worth worthCommandHandler = new Worth();
         this.WORTH.setExecutor(worthCommandHandler);

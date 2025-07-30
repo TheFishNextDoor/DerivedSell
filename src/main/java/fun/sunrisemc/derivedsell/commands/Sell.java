@@ -13,9 +13,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import fun.sunrisemc.derivedsell.Commands;
-import fun.sunrisemc.derivedsell.InventoryTools;
 import fun.sunrisemc.derivedsell.MaterialWorth;
-import fun.sunrisemc.derivedsell.Plugin;
+import fun.sunrisemc.derivedsell.DerivedSell;
+import fun.sunrisemc.derivedsell.utils.InventoryUtils;
 
 public class Sell implements CommandExecutor, TabCompleter {
 
@@ -71,20 +71,20 @@ public class Sell implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        int inInventory = InventoryTools.countSimilar(player, item);
+        int inInventory = InventoryUtils.countSimilar(player, item);
         quantity = Math.min(quantity, inInventory);
         if (quantity == 0) {
             sender.sendMessage(ChatColor.YELLOW + "You do not have any " + Commands.titleCase(material.toString()) + " in your inventory.");
             return true;
         }
 
-        if (!InventoryTools.take(player, item, quantity)) {
+        if (!InventoryUtils.take(player, item, quantity)) {
             sender.sendMessage(ChatColor.DARK_RED + "Failed to sell " + quantity + " " + Commands.titleCase(material.toString()) + ".");
             return true;
         }
 
         double money = worth * quantity;
-        Plugin.getEconomy().depositPlayer(player, money);
+        DerivedSell.getEconomy().depositPlayer(player, money);
         sender.sendMessage(ChatColor.GREEN + "Sold " + quantity + " " + Commands.titleCase(material.toString()) + " for " + Commands.displayMoney(money) + ".");
         return true;
     }
