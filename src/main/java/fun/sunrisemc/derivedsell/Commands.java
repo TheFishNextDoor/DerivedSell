@@ -44,24 +44,6 @@ public class Commands {
         return names;
     }
 
-    public static String titleCase(String str) {
-        str = str.replace("_", " ");
-        String[] words = str.split(" ");
-        String titleCase = "";
-        for (String word : words) {
-            titleCase += word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase() + " ";
-        }
-        return titleCase.trim();
-    }
-
-    public static int number(String numeral) {
-        try {
-            return Integer.parseInt(numeral);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
-
     public static String displayMoney(double value) {
         return MONEY_PREFIX + String.format("%." + ROUND_TO + "f", value) + MONEY_SUFFIX;
     }

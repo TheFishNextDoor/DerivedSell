@@ -16,6 +16,7 @@ import fun.sunrisemc.derivedsell.Commands;
 import fun.sunrisemc.derivedsell.MaterialWorth;
 import fun.sunrisemc.derivedsell.DerivedSell;
 import fun.sunrisemc.derivedsell.utils.InventoryUtils;
+import fun.sunrisemc.derivedsell.utils.StringUtils;
 
 public class Sell implements CommandExecutor, TabCompleter {
 
@@ -62,30 +63,30 @@ public class Sell implements CommandExecutor, TabCompleter {
 
         int quantity = Integer.MAX_VALUE;
         if (args.length >= 2) {
-            quantity = Math.max(Commands.number(args[1]), 1);
+            quantity = Math.max(StringUtils.toInt(args[1]), 1);
         }
 
         Double worth = MaterialWorth.getWorth(material);
         if (worth == null) {
-            sender.sendMessage(ChatColor.YELLOW + Commands.titleCase(material.toString()) + " cannot be sold to the server.");
+            sender.sendMessage(ChatColor.YELLOW + StringUtils.titleCase(material.toString()) + " cannot be sold to the server.");
             return true;
         }
 
         int inInventory = InventoryUtils.countSimilar(player, item);
         quantity = Math.min(quantity, inInventory);
         if (quantity == 0) {
-            sender.sendMessage(ChatColor.YELLOW + "You do not have any " + Commands.titleCase(material.toString()) + " in your inventory.");
+            sender.sendMessage(ChatColor.YELLOW + "You do not have any " + StringUtils.titleCase(material.toString()) + " in your inventory.");
             return true;
         }
 
         if (!InventoryUtils.take(player, item, quantity)) {
-            sender.sendMessage(ChatColor.DARK_RED + "Failed to sell " + quantity + " " + Commands.titleCase(material.toString()) + ".");
+            sender.sendMessage(ChatColor.DARK_RED + "Failed to sell " + quantity + " " + StringUtils.titleCase(material.toString()) + ".");
             return true;
         }
 
         double money = worth * quantity;
         DerivedSell.getEconomy().depositPlayer(player, money);
-        sender.sendMessage(ChatColor.GREEN + "Sold " + quantity + " " + Commands.titleCase(material.toString()) + " for " + Commands.displayMoney(money) + ".");
+        sender.sendMessage(ChatColor.GREEN + "Sold " + quantity + " " + StringUtils.titleCase(material.toString()) + " for " + Commands.displayMoney(money) + ".");
         return true;
     }
 }

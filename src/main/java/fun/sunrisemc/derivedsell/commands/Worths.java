@@ -13,6 +13,7 @@ import org.bukkit.command.TabCompleter;
 
 import fun.sunrisemc.derivedsell.Commands;
 import fun.sunrisemc.derivedsell.MaterialWorth;
+import fun.sunrisemc.derivedsell.utils.StringUtils;
 import net.md_5.bungee.api.ChatColor;
 
 public class Worths implements CommandExecutor, TabCompleter {
@@ -36,7 +37,7 @@ public class Worths implements CommandExecutor, TabCompleter {
         int page;
         int maxPage = worths.size() / PAGE_SIZE + 1;
         if (args.length >= 1) {
-            page = Commands.number(args[0]);
+            page = StringUtils.toInt(args[0]);
             page = Math.max(page, 1);
             page = Math.min(page, maxPage);
         }
@@ -52,7 +53,7 @@ public class Worths implements CommandExecutor, TabCompleter {
         for (Entry<Material, Double> entry : worths.entrySet()) {
             i++;
             if (i > start && i <= end) {
-                sender.sendMessage(i.toString() + ". " + Commands.titleCase(entry.getKey().toString()) + ": " + Commands.displayMoney(entry.getValue()));
+                sender.sendMessage(i.toString() + ". " + StringUtils.titleCase(entry.getKey().toString()) + ": " + Commands.displayMoney(entry.getValue()));
             }
         }
         return true;

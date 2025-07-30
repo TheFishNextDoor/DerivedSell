@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import fun.sunrisemc.derivedsell.Commands;
 import fun.sunrisemc.derivedsell.MaterialWorth;
+import fun.sunrisemc.derivedsell.utils.StringUtils;
 
 public class Worth implements CommandExecutor, TabCompleter {
 
@@ -54,7 +55,7 @@ public class Worth implements CommandExecutor, TabCompleter {
         }
 
         if (args.length >= 2) {
-            quantity = Math.max(Commands.number(args[1]), 1);
+            quantity = Math.max(StringUtils.toInt(args[1]), 1);
         }
 
         if (material == null) {
@@ -64,15 +65,15 @@ public class Worth implements CommandExecutor, TabCompleter {
 
         Double worth = MaterialWorth.getWorth(material);
         if (worth == null) {
-            sender.sendMessage(ChatColor.YELLOW + Commands.titleCase(material.name()) + " cannot be sold to the server.");
+            sender.sendMessage(ChatColor.YELLOW + StringUtils.titleCase(material.name()) + " cannot be sold to the server.");
             return true;
         }
 
         if (quantity > 1) {
-            sender.sendMessage(ChatColor.GREEN + "Stack of " + quantity + " " + Commands.titleCase(material.name()) + " is worth " + Commands.displayMoney(worth * quantity) + " (" + Commands.displayMoney(worth) + " per item).");
+            sender.sendMessage(ChatColor.GREEN + "Stack of " + quantity + " " + StringUtils.titleCase(material.name()) + " is worth " + Commands.displayMoney(worth * quantity) + " (" + Commands.displayMoney(worth) + " per item).");
         }
         else {
-            sender.sendMessage(ChatColor.GREEN + Commands.titleCase(material.name()) + " is worth " + Commands.displayMoney(worth) + " per item.");
+            sender.sendMessage(ChatColor.GREEN + StringUtils.titleCase(material.name()) + " is worth " + Commands.displayMoney(worth) + " per item.");
         }
         return true;
     }
