@@ -121,6 +121,10 @@ public class MaterialWorth {
             return null;
         }
 
+        if (!material.isItem()) {
+            return null;
+        }
+        
         IngredientList ingredients = IngredientList.getCheapest(new ItemStack(material));
         if (ingredients != null) {
             return getWorthPerResult(ingredients);
