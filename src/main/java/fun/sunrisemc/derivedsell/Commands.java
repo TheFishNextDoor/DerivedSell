@@ -17,7 +17,7 @@ public class Commands {
 
     private static final String MONEY_PREFIX = "$";
     private static final String MONEY_SUFFIX = "";
-    private static final int roundTo = 2;
+    private static final int ROUND_TO = 2;
 
     public Commands(DerivedSell plugin) {
         this.WORTH = plugin.getCommand("worth");
@@ -63,6 +63,6 @@ public class Commands {
     }
 
     public static String displayMoney(double value) {
-        return MONEY_PREFIX + String.format("%." + roundTo + "f", value) + MONEY_SUFFIX;
+        return MONEY_PREFIX + String.format("%." + ROUND_TO + "f", value) + MONEY_SUFFIX;
     }
 }
