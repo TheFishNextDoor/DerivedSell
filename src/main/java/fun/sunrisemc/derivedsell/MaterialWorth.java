@@ -14,7 +14,7 @@ public class MaterialWorth {
 
     private static HashSet<Material> checking = new HashSet<>();
 
-    // Massively speeds up checking and fixes some loop conditions but is only valid for the current recursive search
+    // Only valid for the current recursive search
     private static HashMap<Material, Double> tempWorthCache = new HashMap<>();
     private static HashSet<Material> tempWorthlessCache = new HashSet<>();
 
