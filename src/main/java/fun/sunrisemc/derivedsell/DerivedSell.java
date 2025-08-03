@@ -1,59 +1,74 @@
 package fun.sunrisemc.derivedsell;
 
-import org.bukkit.Material;
 import org.bukkit.Server;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import fun.sunrisemc.derivedsell.commands.Sell;
 import fun.sunrisemc.derivedsell.commands.Worth;
+import fun.sunrisemc.derivedsell.commands.Worths;
 import net.milkbowl.vault.economy.Economy;
 
 public class DerivedSell extends JavaPlugin {
 
     private static DerivedSell instance = null;
     private static Economy economy = null;
-    private static Commands commands = null;
 
     public void onEnable() {
         instance = this;
-        commands = new Commands(this);
+
+        registerCommands();
 
         if (!hookVault()) {
-            getLogger().severe("Vault not found. Disabling plugin.");
-            getServer().getPluginManager().disablePlugin(this);
+            logSevere("Vault not found. Disabling plugin.");
+            disable();
             return;
         }
 
-        MaterialWorth.setWorth(Material.OAK_LOG, 1.0);
-        MaterialWorth.setWorth(Material.COBBLESTONE, 2.0);
-        MaterialWorth.setWorth(Material.COAL, 10.0);
-        MaterialWorth.setWorth(Material.RAW_COPPER, 20.0);
-        MaterialWorth.setWorth(Material.RAW_IRON, 40.0);
-        MaterialWorth.setWorth(Material.RAW_GOLD, 250.0);
-        MaterialWorth.setWorth(Material.DIAMOND, 1000.0);
-        MaterialWorth.setWorth(Material.NETHERITE_SCRAP, 1500.0);
-
-        MaterialWorth.preCacheWorths();
-
-        getCommand("worth").setExecutor(new Worth());
-
-        getLogger().info("Plugin enabled.");
+        logInfo("Plugin enabled.");
     }
 
     public void onDisable() {
         getLogger().info("Plugin disabled.");
     }
 
-    public static DerivedSell getInstance() {
-        return instance;
-    }
-
     public static Economy getEconomy() {
         return economy;
     }
 
-    public static Commands getCommands() {
-        return commands;
+    public static void logInfo(String message) {
+        if (instance != null) {
+            instance.getLogger().info(message);
+        }
+    }
+
+    public static void logSevere(String message) {
+        if (instance != null) {
+            instance.getLogger().severe(message);
+        }
+    }
+
+    private void disable() {
+        logInfo("Disabling plugin...");
+        getServer().getPluginManager().disablePlugin(this);
+    }
+
+    private void registerCommands() {
+        PluginCommand worthCommand = this.getCommand("worth");
+        Worth worthCommandHandler = new Worth();
+        worthCommand.setExecutor(worthCommandHandler);
+        worthCommand.setTabCompleter(worthCommandHandler);
+
+        PluginCommand worthsCommand = this.getCommand("worths");
+        Worths worthsCommandHandler = new Worths();
+        worthsCommand.setExecutor(worthsCommandHandler);
+        worthsCommand.setTabCompleter(worthsCommandHandler);
+
+        PluginCommand sellCommand = this.getCommand("sell");
+        Sell sellCommandHandler = new Sell();
+        sellCommand.setExecutor(sellCommandHandler);
+        sellCommand.setTabCompleter(sellCommandHandler);
     }
 
     private boolean hookVault() {
