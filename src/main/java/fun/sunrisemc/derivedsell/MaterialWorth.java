@@ -113,15 +113,15 @@ public class MaterialWorth {
             return null;
         }
 
+        if (!material.isItem()) {
+            return null;
+        }
+
         if (tempWorthCache.containsKey(material)) {
             return tempWorthCache.get(material);
         }
 
         if (tempWorthlessCache.contains(material)) {
-            return null;
-        }
-
-        if (!material.isItem()) {
             return null;
         }
         
